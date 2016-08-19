@@ -699,13 +699,16 @@ function Chessboard(containerId, config) {
 		
 		if (_selectedSquareIndex !== null && _validMoves.indexOf(index) > -1) {
 			if (_eventHandlers.onMove) {
-				nextPosition = _eventHandlers.onMove({from: ChessUtils.convertIndexToNotationSquare(_selectedSquareIndex),
-																		to: ChessUtils.convertIndexToNotationSquare(index)});
+				_eventHandlers.onMove({
+					from: ChessUtils.convertIndexToNotationSquare(_selectedSquareIndex),
+					to: ChessUtils.convertIndexToNotationSquare(index)})
+			    .then(function(nextPosition) {
 				if (nextPosition !== null) {
-					_that.setPosition(nextPosition);
-					clearSelection();
+				  _that.setPosition(nextPosition);
+				  clearSelection();
 				}
-			}
+			})
+		   }
 		} else {
 		
 			if (_selectedSquareIndex !== index) {
